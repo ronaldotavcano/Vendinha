@@ -1,24 +1,71 @@
-﻿using System;
-using Vendinha.Models;
+﻿using Vendinha.Models;
+using Vendinha.Services;
 
-Console.WriteLine("Digite o nome: ");
-var nome = Console.ReadLine();
+var service = new ClienteService();
 
-Console.WriteLine("Digite o CPF: ");
-var cpf = Console.ReadLine();
+while (true)
+{
+    Console.WriteLine("\n1 - Consultar clientes");
+    Console.WriteLine("2 - Criar cliente");
+    Console.Write("Digite a opção: ");
 
-Console.WriteLine("Digite o email: ");
-var email = Console.ReadLine();
+    int opcao = 0;
 
-Console.WriteLine("Digite a data de nascimento: ");
-var data = DateTime.Parse(Console.ReadLine());
+    try
+    {
+        opcao = int.Parse(Console.ReadLine()!);
+    }
+    catch(FormatException ex)
+    {
+        Console.WriteLine("Opção inválida! {0}", ex.Message);
+    }
 
-var cliente = new Cliente();
+    if(opcao == 1)
+    {
+        var clientes = service.Consultar();
+        Console.WriteLine("===============================");
+        foreach(var cliente in clientes)
+        {
+            cliente.PublicarDados();
+            Console.WriteLine("===============================");
+        }
+    }
+    else if (opcao == 2)
+    {
+        Console.WriteLine("Digite o nome: ");
+        var nome = Console.ReadLine();
 
-cliente.Nome = nome;
-cliente.Email = email;
-cliente.DataNascimento = data;
-cliente.Cpf = cpf;
+        Console.WriteLine("Digite o cpf: ");
+        var cpf = Console.ReadLine();
 
-cliente.PublicarDados();
+        Console.WriteLine("Digite o email: ");
+        var email = Console.ReadLine();
+
+        Console.WriteLine("Digite a data de nascimento: ");
+        var data = DateTime.Parse(Console.ReadLine()!);
+
+        var cliente = new Cliente();
+
+        cliente.Nome = nome;
+        cliente.Cpf = cpf;
+        cliente.DataNascimento = data;
+        cliente.Email = email;
+        var sucesso = service.CriarCliente(cliente, out var errors);
+
+        if (sucesso)
+        {
+            Console.WriteLine("Cadastrado com sucesso!");
+        }
+        else
+        {
+            foreach(var erro in errors)
+            {
+                Console.WriteLine("{0}: {1}", erro.MemberNames.First(), erro.ErrorMessage);
+            }
+            Console.WriteLine("Erro ao cadastrar");
+        }
+    }
+}
+
+
 

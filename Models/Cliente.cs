@@ -8,7 +8,7 @@ internal class Cliente
     [Required, StringLength(80, MinimumLength =4)]
     public string Nome {get; set;}
     [Required, StringLength(11)]
-    public string Cpf;
+    public string Cpf{get; set;}
     private string email;
     [Required]
     public string Email
@@ -43,7 +43,7 @@ internal class Cliente
 
     public void PublicarDados()
     {
-        Console.WriteLine("\n Dados do Cliente");
+        Console.WriteLine("\nDados do Cliente");
         Console.WriteLine("Nome: {0}", Nome);
         Console.WriteLine("Cpf: {0}", Cpf);
         Console.WriteLine("Email: {0}", Email);
