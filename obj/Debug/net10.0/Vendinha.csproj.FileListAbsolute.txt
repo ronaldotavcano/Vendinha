@@ -7,6 +7,7 @@
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.AssemblyInfoInputs.cache
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.AssemblyInfo.cs
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.csproj.CoreCompileInputs.cache
+/home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.sourcelink.json
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.dll
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/refint/Vendinha.dll
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.pdb
