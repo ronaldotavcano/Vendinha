@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "1U9x2Eekrqw=",
+  "dgSpecHash": "JjhnkHjm8tY=",
   "success": true,
   "projectFilePath": "/home/ronaldo-t-cano/Code/Vendinha/Vendinha.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/ronaldo-t-cano/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.0/microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "/home/ronaldo-t-cano/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.0/microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
+    "/home/ronaldo-t-cano/.nuget/packages/npgsql/10.0.3/npgsql.10.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

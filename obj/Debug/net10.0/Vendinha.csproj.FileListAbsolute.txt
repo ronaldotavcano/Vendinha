@@ -13,3 +13,8 @@
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.pdb
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.genruntimeconfig.cache
 /home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/ref/Vendinha.dll
+/home/ronaldo-t-cano/Code/Vendinha/bin/Debug/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/ronaldo-t-cano/Code/Vendinha/bin/Debug/net10.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/ronaldo-t-cano/Code/Vendinha/bin/Debug/net10.0/Npgsql.dll
+/home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.csproj.AssemblyReference.cache
+/home/ronaldo-t-cano/Code/Vendinha/obj/Debug/net10.0/Vendinha.csproj.Up2Date
