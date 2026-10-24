@@ -6,7 +6,7 @@ namespace Vendinha.Services;
 
 internal class ClienteService
 {
-    private string ConnectionString = "Server=localhost; Port=5432; Database=vendinha; User Id=ronaldotc; Password=***teste123***;";
+    private string ConnectionString = "Server=localhost; Port=5432; Database=vendinha; User Id=ronaldotc; Password=teste123;";
 
     public bool CriarCliente(Cliente cliente, out List<ValidationResult> erros)
     {

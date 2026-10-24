@@ -19,7 +19,7 @@ internal class Cliente
         }
         set
         {
-            this.email = value?.ToLower().Trim();
+            this.email = value.ToLower().Trim();
         }
     }
     [Required]
