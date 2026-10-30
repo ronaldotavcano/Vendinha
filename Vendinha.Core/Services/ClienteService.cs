@@ -1,41 +1,38 @@
-using System.ComponentModel.DataAnnotations;
-using Npgsql;
+using Vendinha.Contexts;
 using Vendinha.Models;
+using Npgsql;
+using System.ComponentModel.DataAnnotations;
 
-namespace Vendinha.Services;
-
-internal class ClienteService
+namespace Vendinha.Services
 {
-    private string ConnectionString = "Server=localhost; Port=5432; Database=vendinha; User Id=ronaldotc; Password=teste123;";
-
-    public bool CriarCliente(Cliente cliente, out List<ValidationResult> erros)
+    public class ClienteService
     {
-        if(!ValidarCliente(cliente, out erros))
+        private VendinhaDbContext context;
+        public ClienteService(VendinhaDbContext context)
         {
-            return false;
+          this.context = context;
         }
 
-        var conexao = new NpgsqlConnection(ConnectionString);
-        conexao.Open();
+        public ClienteService() : this(new VendinhaDbContext(ConnectionString))
+        {
+        // executa primeiro o construtor com parametros e depois o sem
+        }
 
-        var sql = """
-                INSERT INTO clientes(cpf, nome, email, datanascimento) 
-                VALUES (@p1, @p2, @p3, @p4)
-            """;
+        private const string ConnectionString = "Server=localhost; Port=5432; Database=vendinha; User Id=ronaldotc; Password=teste123;";
 
-        var comando = new NpgsqlCommand(sql, conexao);
+        public bool CriarCliente(Cliente cliente, out List<ValidationResult> erros)
+        {
+            if(!ValidarCliente(cliente, out erros))
+            {
+                return false;
+            }
+            cliente.DataNascimento = cliente.DataNascimento.ToUniversalTime();
+            context.Add(cliente);
+            context.SaveChanges();
+            return true;
+        }
 
-        comando.Parameters.Add("p1", NpgsqlTypes.NpgsqlDbType.Text).Value = cliente.Cpf;
-        comando.Parameters.Add("p2", NpgsqlTypes.NpgsqlDbType.Text).Value = cliente.Nome;
-        comando.Parameters.Add("p3", NpgsqlTypes.NpgsqlDbType.Text).Value = cliente.Email;
-        comando.Parameters.Add("p4", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = cliente.DataNascimento;
-
-        var linhas = comando.ExecuteNonQuery();
-            
-        return linhas == 1;
-    }
-
-    public bool ValidarCliente(Cliente cliente, out List<ValidationResult> erros)
+        public bool ValidarCliente(Cliente cliente, out List<ValidationResult> erros)
     {
         var context = new ValidationContext(cliente);
         erros = new List<ValidationResult>();
@@ -43,37 +40,11 @@ internal class ClienteService
         return Validator.TryValidateObject(cliente, context, erros, true);
     }
 
-    public List<Cliente> Consultar()
+        public List<Cliente> Consultar()
     {
-        var conexao = new NpgsqlConnection(ConnectionString);
-        conexao.Open();
-
-        var sql = """
-            select cpf, nome, email, datanascimento
-            from clientes
-        """;
-
-        var comando = new NpgsqlCommand(sql, conexao);
-
-        var leitor = comando.ExecuteReader();
-
-        var resultado = new List<Cliente>();
-
-        while (leitor.Read()) 
-        {
-            var cliente = new Cliente()
-            {
-                Cpf = leitor.GetString(0),
-                Nome = leitor.GetString(1),
-                Email = leitor.GetString(2),
-                DataNascimento = leitor.GetDateTime(3)
-            };
-            resultado.Add(cliente);
-        }
-
+        var resultado = context.Clientes.OrderBy(a => a.Nome).ToList();
         return resultado;
-
+    }
     }
 }
-
 

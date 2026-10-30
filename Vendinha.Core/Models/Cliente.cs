@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Vendinha.Models;
 
-internal class Cliente
+public class Cliente
 {
     [Required, StringLength(80, MinimumLength =4)]
     public string Nome {get; set;}
