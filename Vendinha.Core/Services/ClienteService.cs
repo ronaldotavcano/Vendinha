@@ -32,12 +32,77 @@ namespace Vendinha.Services
             return true;
         }
 
+        private static bool CpfEhValido(string cpf)
+        {
+            cpf = cpf.Replace(".", "").Replace("-", "");
+
+            if (cpf.Length != 11)
+                return false;
+
+            if (new string(cpf[0], 11) == cpf)
+                return false;
+
+            int[] multiplicador1 = new int[9] {10, 9, 8, 7, 6, 5, 4, 3, 2};
+            int[] multiplicador2 = new int[10] {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+
+            string cpf_temporario = cpf.Substring(0, 9);
+            int soma = 0;
+
+            for (int i = 0; i < 9; i++)
+            {
+                soma += int.Parse( cpf_temporario[i].ToString() ) * multiplicador1[i];
+            }
+
+            int resto = soma % 11;
+
+            if ( resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+            
+            string digito = resto.ToString();
+            cpf_temporario = cpf_temporario + digito;
+            soma = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                soma += int.Parse( cpf_temporario[i].ToString()) * multiplicador2[i];
+            }
+
+            resto = soma % 11;
+
+            if (resto < 2)
+                resto = 0;
+            else
+                resto = 11 - resto;
+
+            digito = digito + resto.ToString();
+
+            return cpf.EndsWith(digito);
+        }
+
         public bool ValidarCliente(Cliente cliente, out List<ValidationResult> erros)
     {
-        var context = new ValidationContext(cliente);
+        var vcontext = new ValidationContext(cliente);
         erros = new List<ValidationResult>();
 
-        return Validator.TryValidateObject(cliente, context, erros, true);
+        var valida = Validator.TryValidateObject(cliente, vcontext, erros, true);
+
+        if (!string.IsNullOrEmpty(cliente.Cpf) && !CpfEhValido(cliente.Cpf))
+        {
+            erros.Add(new ValidationResult("O CPF informado não é válido!"));
+            valida = false;
+        }
+
+        var existente = context.Clientes.Any(c => c.Cpf == cliente.Cpf);
+
+        if (existente)
+        {
+            erros.Add(new ValidationResult($"O CPF {cliente.Cpf} já está cadastrado!", ["Cpf"]));
+            valida = false;
+        }
+
+        return valida;
     }
 
         public List<Cliente> Consultar()
