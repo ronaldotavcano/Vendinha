@@ -15,8 +15,9 @@ namespace Vendinha.Contexts
         {
             this.connectionString = connectionString;
         }
-
+        
         public DbSet<Cliente> Clientes => Set<Cliente>();
+        public DbSet<Divida> Dividas => Set<Divida>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var entityCliente = modelBuilder.Entity<Cliente>();
@@ -26,6 +27,17 @@ namespace Vendinha.Contexts
             entityCliente.Property(c => c.Email).HasColumnName("email");
             entityCliente.Property(c => c.DataNascimento).HasColumnName("datanascimento");
             entityCliente.HasKey(c => c.Cpf);
+
+            var entityDivida = modelBuilder.Entity<Divida>();
+            entityDivida.ToTable("dividas");
+            entityDivida.Property(d => d.Id).HasColumnName("id");
+            entityDivida.Property(d => d.ClienteCpf).HasColumnName("cliente_cpf");
+            entityDivida.Property(d => d.Valor).HasColumnName("valor");
+            entityDivida.Property(d => d.DividaPaga).HasColumnName("divida_paga"); 
+            entityDivida.Property(d => d.DataCriacao).HasColumnName("data_criacao");
+            entityDivida.Property(d => d.DataPagamento).HasColumnName("data_pagamento");
+            entityDivida.HasKey(d => d.Id);
+
             base.OnModelCreating(modelBuilder);
         }
 
