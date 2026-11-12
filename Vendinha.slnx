@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Vendinha.Core/">
+    <Project Path="Vendinha.Core/Vendinha.csproj" />
+  </Folder>
+  <Project Path="Vendinha.Desktop/Vendinha.Desktop.csproj" />
+</Solution>
