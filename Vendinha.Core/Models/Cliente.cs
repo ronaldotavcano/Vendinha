@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 
 namespace Vendinha.Models;
@@ -40,6 +41,11 @@ public class Cliente
             return idade;
         }
     }
+
+    public List<Divida> Dividas { get; set; } = new List<Divida>();
+
+    [NotMapped]
+    public decimal TotalDividas { get; set; }
 
     public void PublicarDados()
     {

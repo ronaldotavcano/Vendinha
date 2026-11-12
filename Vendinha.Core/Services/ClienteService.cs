@@ -1,7 +1,8 @@
-using Vendinha.Contexts;
-using Vendinha.Models;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.ComponentModel.DataAnnotations;
+using Vendinha.Contexts;
+using Vendinha.Models;
 
 namespace Vendinha.Services
 {
@@ -119,6 +120,84 @@ namespace Vendinha.Services
         return resultado;
     }
 
+        public List<Cliente> ListarParaGrid(string pesquisa = "", int paginaAtual = 1, int quantidadePorPagina = 10)
+        {
+            
+            var query = context.Clientes.Include(c => c.Dividas).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pesquisa))
+            {
+                query = query.Where(c => c.Nome.Contains(pesquisa));
+            }
+
+            var resultado = query
+                .ToList()
+                .Select(c => {
+                    c.TotalDividas = c.Dividas.Where(d => !d.DividaPaga).Sum(d => d.Valor);
+                    return c;
+                })
+                .OrderByDescending(c => c.TotalDividas)
+                .Skip((paginaAtual - 1) * quantidadePorPagina)
+                .Take(quantidadePorPagina)
+                .ToList();
+
+            return resultado;
+        }
+
+        public bool PagarDivida(string cpf)
+        {
+            var cliente = context.Clientes
+                                  .Include(c => c.Dividas)
+                                  .FirstOrDefault(c => c.Cpf == cpf);
+
+            if (cliente == null || !cliente.Dividas.Any(d => d.DividaPaga == false))
+            {
+                return false; 
+            }
+
+            var dividaAberta = cliente.Dividas.FirstOrDefault(d => d.DividaPaga == false);
+
+            if (dividaAberta != null)
+            {
+                dividaAberta.DividaPaga = true;
+                dividaAberta.DataPagamento = DateTime.Now.ToUniversalTime();
+                context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public decimal ObterTotalDividasGeral(string pesquisa = "")
+        {
+            var query = context.Clientes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pesquisa))
+            {
+                pesquisa = pesquisa.ToLower();
+                query = query.Where(c => c.Nome.ToLower().Contains(pesquisa) ||
+                                         c.Cpf.Contains(pesquisa));
+            }
+
+            return query.SelectMany(c => c.Dividas)
+                        .Where(d => d.DividaPaga == false)
+                        .Sum(d => d.Valor);
+        }
+
+        public int ObterTotalPaginas(string pesquisa = "", int quantidadePorPagina = 10)
+        {
+            var query = context.Clientes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pesquisa))
+            {
+                pesquisa = pesquisa.ToLower();
+                query = query.Where(c => c.Nome.ToLower().Contains(pesquisa) ||
+                                         c.Cpf.Contains(pesquisa));
+            }
+            int totalRegistros = query.Count();
+
+            return (int)Math.Ceiling((double)totalRegistros / quantidadePorPagina);
+        }
     }
 }
 

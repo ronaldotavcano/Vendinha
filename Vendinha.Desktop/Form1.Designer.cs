@@ -32,7 +32,6 @@
             label1 = new Label();
             panel2 = new Panel();
             btnCriarDivida = new Button();
-            btnListarDividas = new Button();
             btnCadastrarCliente = new Button();
             btnListarCliente = new Button();
             label2 = new Label();
@@ -64,7 +63,6 @@
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
             panel2.Controls.Add(btnCriarDivida);
-            panel2.Controls.Add(btnListarDividas);
             panel2.Controls.Add(btnCadastrarCliente);
             panel2.Controls.Add(btnListarCliente);
             panel2.Controls.Add(label2);
@@ -78,25 +76,13 @@
             // 
             btnCriarDivida.BackColor = SystemColors.ButtonHighlight;
             btnCriarDivida.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCriarDivida.Location = new Point(12, 439);
+            btnCriarDivida.Location = new Point(12, 319);
             btnCriarDivida.Name = "btnCriarDivida";
             btnCriarDivida.Size = new Size(349, 71);
             btnCriarDivida.TabIndex = 4;
             btnCriarDivida.Text = "Criar Dívida";
             btnCriarDivida.UseVisualStyleBackColor = false;
             btnCriarDivida.Click += btnCriarDivida_Click;
-            // 
-            // btnListarDividas
-            // 
-            btnListarDividas.BackColor = SystemColors.ButtonHighlight;
-            btnListarDividas.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnListarDividas.Location = new Point(12, 324);
-            btnListarDividas.Name = "btnListarDividas";
-            btnListarDividas.Size = new Size(349, 71);
-            btnListarDividas.TabIndex = 3;
-            btnListarDividas.Text = "Listar Dívidas";
-            btnListarDividas.UseVisualStyleBackColor = false;
-            btnListarDividas.Click += button2_Click;
             // 
             // btnCadastrarCliente
             // 
@@ -159,7 +145,6 @@
         private Label label2;
         private Button btnListarCliente;
         private Button btnCriarDivida;
-        private Button btnListarDividas;
         private Button btnCadastrarCliente;
     }
 }

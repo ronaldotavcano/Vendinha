@@ -13,8 +13,8 @@ namespace Vendinha.Models
 
         [Required, Range(0.01, 999999.99)]
         public decimal Valor { get; set; }
-        
-        public bool DividaPaga{get; set;}
+
+        public bool DividaPaga { get; set; } = false;
 
         public DateTime DataCriacao{get; set;}
 
