@@ -118,6 +118,7 @@ namespace Vendinha.Services
         var resultado = context.Clientes.OrderBy(a => a.Nome).ToList();
         return resultado;
     }
+
     }
 }
 
