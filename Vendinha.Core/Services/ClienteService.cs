@@ -160,6 +160,37 @@ namespace Vendinha.Services
 
             return (int)Math.Ceiling((double)totalRegistros / quantidadePorPagina);
         }
+
+        public bool ExcluirCliente(string cpf, out string mensagemErro)
+        {
+            mensagemErro = "";
+
+            var cliente = context.Clientes
+                                 .Include(c => c.Dividas)
+                                 .FirstOrDefault(c => c.Cpf == cpf);
+
+            if (cliente == null)
+            {
+                mensagemErro = "Cliente não encontrado.";
+                return false;
+            }
+       
+            if (cliente.Dividas != null && cliente.Dividas.Any(d => !d.DividaPaga))
+            {
+                mensagemErro = "Não é possível excluir um cliente que possui dívida em aberto!";
+                return false;
+            }
+
+            if (cliente.Dividas != null && cliente.Dividas.Any())
+            {
+                context.Dividas.RemoveRange(cliente.Dividas);
+            }
+
+            context.Clientes.Remove(cliente);
+            context.SaveChanges();
+
+            return true;
+        }
     }
 }
 

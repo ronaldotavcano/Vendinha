@@ -48,9 +48,9 @@
             dvgClientes.AllowUserToDeleteRows = false;
             dvgClientes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dvgClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgClientes.Location = new Point(364, 269);
+            dvgClientes.Location = new Point(364, 268);
             dvgClientes.Name = "dvgClientes";
-            dvgClientes.Size = new Size(748, 299);
+            dvgClientes.Size = new Size(878, 299);
             dvgClientes.TabIndex = 0;
             dvgClientes.CellContentClick += dvgClientes_CellContentClick;
             // 
@@ -90,14 +90,14 @@
             // 
             txtBusca.Location = new Point(364, 223);
             txtBusca.Name = "txtBusca";
-            txtBusca.Size = new Size(586, 23);
+            txtBusca.Size = new Size(656, 23);
             txtBusca.TabIndex = 3;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(999, 222);
+            btnBuscar.Location = new Point(1113, 222);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(113, 23);
+            btnBuscar.Size = new Size(129, 23);
             btnBuscar.TabIndex = 4;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
             // 
             lbl.AutoSize = true;
             lbl.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl.Location = new Point(813, 641);
+            lbl.Location = new Point(955, 638);
             lbl.Name = "lbl";
             lbl.Size = new Size(137, 30);
             lbl.TabIndex = 5;
@@ -116,7 +116,7 @@
             // 
             // btnAnterior
             // 
-            btnAnterior.Location = new Point(940, 574);
+            btnAnterior.Location = new Point(1055, 573);
             btnAnterior.Name = "btnAnterior";
             btnAnterior.Size = new Size(37, 23);
             btnAnterior.TabIndex = 6;
@@ -127,7 +127,7 @@
             // btnProximo
             // 
             btnProximo.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnProximo.Location = new Point(983, 574);
+            btnProximo.Location = new Point(1098, 573);
             btnProximo.Name = "btnProximo";
             btnProximo.Size = new Size(37, 23);
             btnProximo.TabIndex = 7;
@@ -138,7 +138,7 @@
             // lblPagina
             // 
             lblPagina.AutoSize = true;
-            lblPagina.Location = new Point(1037, 579);
+            lblPagina.Location = new Point(1156, 577);
             lblPagina.Name = "lblPagina";
             lblPagina.Size = new Size(38, 15);
             lblPagina.TabIndex = 8;

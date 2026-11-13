@@ -33,6 +33,14 @@ namespace Vendinha.Desktop.screens
 
             dvgClientes.Columns.Add(btnPagar);
 
+            DataGridViewButtonColumn btnExcluir = new DataGridViewButtonColumn();
+            btnExcluir.HeaderText = "Excluir";
+            btnExcluir.Name = "btnExcluir";
+            btnExcluir.Text = "Excluir";
+            btnExcluir.UseColumnTextForButtonValue = true;
+
+            dvgClientes.Columns.Add(btnExcluir);
+
             CarregarTabela();
         }
 
@@ -45,10 +53,11 @@ namespace Vendinha.Desktop.screens
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                if (dvgClientes.Columns[e.ColumnIndex].Name == "btnPagar")
-                {
-                    string cpfCliente = dvgClientes.Rows[e.RowIndex].Cells["Cpf"].Value.ToString();
+                string colunaClicada = dvgClientes.Columns[e.ColumnIndex].Name;
+                string cpfCliente = dvgClientes.Rows[e.RowIndex].Cells["Cpf"].Value.ToString();
 
+                if (colunaClicada == "btnPagar")
+                {
                     bool sucesso = divida.PagarDivida(cpfCliente);
 
                     if (sucesso)
@@ -59,6 +68,27 @@ namespace Vendinha.Desktop.screens
                     else
                     {
                         MessageBox.Show("Este cliente não possui dívidas em aberto.");
+                    }
+                }
+                else if (colunaClicada == "btnExcluir")
+                {
+                    var confirmacao = MessageBox.Show(
+                        "Tem certeza que deseja excluir este cliente?",
+                        "Confirmar Exclusão",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirmacao == DialogResult.Yes)
+                    {
+                        if (cliente.ExcluirCliente(cpfCliente, out string erro))
+                        {
+                            MessageBox.Show("Cliente excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CarregarTabela();
+                        }
+                        else
+                        {
+                            MessageBox.Show(erro, "Operação Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                 }
             }
@@ -113,6 +143,16 @@ namespace Vendinha.Desktop.screens
                 if (dvgClientes.Columns["btnPagar"] != null)
                 {
                     dvgClientes.Columns["btnPagar"].DisplayIndex = dvgClientes.Columns.Count - 1;
+                }
+
+                if (dvgClientes.Columns["btnPagar"] != null)
+                {
+                    dvgClientes.Columns["btnPagar"].DisplayIndex = dvgClientes.Columns.Count - 2;
+                }
+
+                if (dvgClientes.Columns["btnExcluir"] != null)
+                {
+                    dvgClientes.Columns["btnExcluir"].DisplayIndex = dvgClientes.Columns.Count - 1;
                 }
 
                 decimal totalGeral = divida.ObterTotalDividasGeral(pesquisa);
