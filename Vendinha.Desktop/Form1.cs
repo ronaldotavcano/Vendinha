@@ -50,7 +50,8 @@ namespace Vendinha.Desktop
 
         private void btnCriarDivida_Click(object sender, EventArgs e)
         {
-
+            FormCriarDivida formCriar = new FormCriarDivida();
+            formCriar.Show();
         }
     }
 }

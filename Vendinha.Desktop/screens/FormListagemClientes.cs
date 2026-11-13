@@ -13,6 +13,7 @@ namespace Vendinha.Desktop.screens
     public partial class FormListagemClientes : Form
     {
         private ClienteService cliente = new ClienteService();
+        private DividaService divida = new DividaService();
         private int paginaAtual = 1;
         private const int QuantidadePorPagina = 10;
         private int totalPaginas = 1;
@@ -48,7 +49,7 @@ namespace Vendinha.Desktop.screens
                 {
                     string cpfCliente = dvgClientes.Rows[e.RowIndex].Cells["Cpf"].Value.ToString();
 
-                    bool sucesso = cliente.PagarDivida(cpfCliente);
+                    bool sucesso = divida.PagarDivida(cpfCliente);
 
                     if (sucesso)
                     {
@@ -114,7 +115,7 @@ namespace Vendinha.Desktop.screens
                     dvgClientes.Columns["btnPagar"].DisplayIndex = dvgClientes.Columns.Count - 1;
                 }
 
-                decimal totalGeral = cliente.ObterTotalDividasGeral(pesquisa);
+                decimal totalGeral = divida.ObterTotalDividasGeral(pesquisa);
                 lbl.Text = $"Total da dívida: R$ {totalGeral:N2}";
 
                 totalPaginas = cliente.ObterTotalPaginas(pesquisa, QuantidadePorPagina);

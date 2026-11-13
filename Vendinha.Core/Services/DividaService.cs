@@ -1,7 +1,8 @@
-using Vendinha.Contexts;
-using Vendinha.Models;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.ComponentModel.DataAnnotations;
+using Vendinha.Contexts;
+using Vendinha.Models;
 
 namespace Vendinha.Services
 {
@@ -32,6 +33,8 @@ namespace Vendinha.Services
             {
                 return false;
             }
+
+            divida.DataCriacao = DateTime.UtcNow;
 
             context.Dividas.Add(divida);
             context.SaveChanges();
@@ -65,6 +68,46 @@ namespace Vendinha.Services
             }
 
             return valida;
+        }
+
+        public bool PagarDivida(string cpf)
+        {
+            var cliente = context.Clientes
+                                  .Include(c => c.Dividas)
+                                  .FirstOrDefault(c => c.Cpf == cpf);
+
+            if (cliente == null || !cliente.Dividas.Any(d => d.DividaPaga == false))
+            {
+                return false;
+            }
+
+            var dividaAberta = cliente.Dividas.FirstOrDefault(d => d.DividaPaga == false);
+
+            if (dividaAberta != null)
+            {
+                dividaAberta.DividaPaga = true;
+                dividaAberta.DataPagamento = DateTime.Now.ToUniversalTime();
+                context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public decimal ObterTotalDividasGeral(string pesquisa = "")
+        {
+            var query = context.Clientes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pesquisa))
+            {
+                pesquisa = pesquisa.ToLower();
+                query = query.Where(c => c.Nome.ToLower().Contains(pesquisa) ||
+                                         c.Cpf.Contains(pesquisa));
+            }
+
+            return query.SelectMany(c => c.Dividas)
+                        .Where(d => d.DividaPaga == false)
+                        .Sum(d => d.Valor);
         }
     }
 }
