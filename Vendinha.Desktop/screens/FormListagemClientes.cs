@@ -115,11 +115,11 @@ namespace Vendinha.Desktop.screens
                 }
 
                 decimal totalGeral = cliente.ObterTotalDividasGeral(pesquisa);
-                lbl.Text = $"Total da dívida    R$ {totalGeral:N2}";
+                lbl.Text = $"Total da dívida: R$ {totalGeral:N2}";
 
                 totalPaginas = cliente.ObterTotalPaginas(pesquisa, QuantidadePorPagina);
-                if (totalPaginas == 0) totalPaginas = 1; 
- 
+                if (totalPaginas == 0) totalPaginas = 1;
+
                 lblPagina.Text = $"Página {paginaAtual} de {totalPaginas}";
 
                 btnAnterior.Enabled = paginaAtual > 1;
@@ -162,6 +162,12 @@ namespace Vendinha.Desktop.screens
                 paginaAtual++;
                 CarregarTabela();
             }
+        }
+
+        private void btnBuscar_Click_1(object sender, EventArgs e)
+        {
+            paginaAtual = 1;
+            CarregarTabela();
         }
     }
 }

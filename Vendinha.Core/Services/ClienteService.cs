@@ -23,7 +23,7 @@ namespace Vendinha.Services
 
         public bool CriarCliente(Cliente cliente, out List<ValidationResult> erros)
         {
-            if(!ValidarCliente(cliente, out erros))
+            if (!ValidarCliente(cliente, out erros))
             {
                 return false;
             }
@@ -127,7 +127,9 @@ namespace Vendinha.Services
 
             if (!string.IsNullOrWhiteSpace(pesquisa))
             {
-                query = query.Where(c => c.Nome.Contains(pesquisa));
+                pesquisa = pesquisa.ToLower().Trim();
+                query = query.Where(c => EF.Functions.Like(c.Nome.ToLower(), $"%{pesquisa}%") ||
+                                         EF.Functions.Like(c.Cpf, $"%{pesquisa}%"));
             }
 
             var resultado = query

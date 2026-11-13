@@ -44,7 +44,8 @@ namespace Vendinha.Desktop
 
         private void btnCadastrarCliente_Click(object sender, EventArgs e)
         {
-
+            FormCriarCliente formCriar = new FormCriarCliente();
+            formCriar.Show();
         }
 
         private void btnCriarDivida_Click(object sender, EventArgs e)
